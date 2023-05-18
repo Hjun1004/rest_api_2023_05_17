@@ -4,6 +4,7 @@ import com.ll.rest.base.rsData.RsData;
 import com.ll.rest.boundedContext.member.entity.Member;
 import com.ll.rest.boundedContext.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -63,7 +64,7 @@ public class ApiV1MemberController {
     // consumes = ALL_VALUE => 나는 딱히 JSON을 입력받기를 고집하지 않겠다.
     // 매개변수로 뭐가 오던 상관없다. null도 된다.
     @GetMapping(value = "/me", consumes = ALL_VALUE)
-    @Operation(summary = "로그인된 사용자의 정보")
+    @Operation(summary = "로그인된 사용자의 정보", security = @SecurityRequirement(name = "bearerAuth"))
     public RsData<MeResponse> me(@AuthenticationPrincipal User user){
         Member member = memberService.findByUsername(user.getUsername()).get();
 
